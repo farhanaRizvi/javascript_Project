@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            * {
+              box-sizing: border-box;
+            }
+            h2{display:flex;
+            justify-content:center;
+            
+            }
+            
+            input[type=text], select, textarea {
+              width: 100%;
+              padding: 12px;
+              border: 1px solid #ccc;
+              border-radius: 4px;
+              resize: vertical;
+            }
+            
+            label {
+              padding: 12px 12px 12px 0;
+              display: inline-block;
+            }
+            
+            input[type=submit] {
+              background-color: #04AA6D;
+              color: white;
+              padding: 12px 20px;
+              border: none;
+              border-radius: 10px;
+              cursor: pointer;
+              float: right;
+            }
+            
+            input[type=submit]:hover {
+              background-color: red;
+            }
+            
+            .container {
+              border-radius: 20px;
+              background-color: #eb7171;
+              padding: 20px;
+            }
+            
+            .col-25 {
+              float: left;
+              width: 25%;
+              margin-top: 6px;
+            }
+            
+            .col-75 {
+              float: left;
+              width: 75%;
+              margin-top: 6px;
+            }
+            
+            /* Clear floats after the columns */
+            .row:after {
+              content: "";
+              display: table;
+              clear: both;
+            }
+            
+            /* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
+            @media screen and (max-width: 600px) {
+              .col-25, .col-75, input[type=submit] {
+                width: 100%;
+                margin-top: 0;
+                
+              }
+            }
+            
+            </style>
+<body>
+        <h2> Get Our Service </h2>
+       <!-- <form id="sub_form"> -->
+        <form id="clearFrom">
+         <div class="row">
+           <div class="col-25">
+             <label for="fname">First Name</label>
+           </div>
+           <div class="col-75">
+             <input type="text" id="name" name="firstname" placeholder="Your name..">
+           </div>
+         </div>
+         <div class="row">
+           <div class="col-25">
+             <label for="lname"></label>
+           </div>
+           <div class="col-75">
+             <input type="text" id="email" name="Email" placeholder="Email..">
+           </div>
+         </div>
+         <div class="row">
+           <div class="col-25">
+             <label for="time">get Service</label>
+           </div>
+           <div class="col-75">
+             <select id="time" name="time">
+               <option value="australia">Appoinment Time</option>
+               <option value="Time">Mon To Wed/9:00PM</option>
+               <option value="Time">Sat/12:PM To 5:00PM</option>
+             </select>
+           </div>
+         </div>
+         <div class="row">
+           <div class="col-25">
+             <label for="subject">Adress</label>
+           </div>
+           <div class="col-75" id="adr">
+             <textarea id="subject" name="subject" placeholder="Complete Your Adress.." style="height:200px"></textarea>
+           </div>
+         </div>
+         <div class="row">
+           <input type="submit" value="Submit" id="submit">
+         </div>
+       </form>
+     </div>
+
+     <script>
+
+
+
+     </script>
+     <!-- <script defer src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+     <script defer src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+
+    <script>
+      // import { initializeApp } from "https://www.gstatic.com/firebasejs/9.10.0/firebase-app.js";
+
+const firebaseConfig = {
+    apiKey: "AIzaSyCVCMSZ0-tuloctSJKyvV_ZEirkxWcCC9c",
+    authDomain: "get-service-form.firebaseapp.com",
+    databaseURL: "https://get-service-form-default-rtdb.firebaseio.com",
+    projectId: "get-service-form",
+    storageBucket: "get-service-form.appspot.com",
+    messagingSenderId: "578758297767",
+    appId: "1:578758297767:web:7c6f4531258caa767b7382"
+  };
+
+    // initialize firebase servcer
+    firebase.initializeApp(firebaseConfig);
+var firestore = firebase.firestore();
+
+
+    //variable to access  database collection
+    const db = firestore.collectin("subForm")
+         
+    //get submit form..........
+    let submitButton = document.getElementById("submit");
+
+//Create Event Listener To Allow Form Submission
+submitButton.addEventListener("click", (e) => {
+  //Prevent Default Form Submission Behavior
+  e.preventDefault();
+
+  //Get Form Values
+  let name = document.getElementById("name").value;
+  let email = document.getElementById("email").value;
+  let time = document.getElementById("time").value;
+  let adr = document.getElementById("adr").value;
+
+  firestore
+    .collection("fomData")
+    .get()
+    .then((snapshot) => {
+      snapshot.docs.forEach((doc) => {
+        const fn = doc.data().name;
+        if (name === fn) {
+          console.log("Already Exists");
+        }
+
+        // console.log("data", doc.data().fname);
+      });
+    });
+  //Save Form Data To Firebase
+  db.doc()
+    .set({
+      name: name,
+      email: email,
+      time: time,
+      adre : adr,
+    })
+    .then(() => { })
+    .catch((error) => {
+      console.log(error);
+    });
+
+  //alert
+  alert("Your Form Has Been Submitted Successfully");
+
+  //clear form after submission
+  function clearForm() {
+    document.getElementById("clearFrom").reset();
+  }
+  clearForm()
+});
+
+
+        
+        // //sub form
+        // document.getElementById('sub_form').addEventListener('submit', submitForm);
+
+        // function submitForm(e){
+        //     e.preventDefault();
+            
+        // }
+
+        //            //get val/////
+        //            var name = getVal("name");
+        //            var email = getval("email");
+        //            var time = getVal("time");
+        //            var adr = getVal("adr");
+
+        //    //func to get form val.......
+        //    function getVal(id){
+        //     return document.getElementById(id).value;
+        //    }
+
+
+
+
+    </script> -->
+</body>
+</html>
